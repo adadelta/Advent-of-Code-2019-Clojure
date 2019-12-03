@@ -1,4 +1,4 @@
-(ns advent2019.puzzle1
+(ns advent2019.day1
   (:gen-class))
 (require '[clojure.java.io :as io])
 
