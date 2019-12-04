@@ -25,3 +25,7 @@
 (deftest run-opcode-instruction-test
   (testing "Runs an opcode instruction on vector [1 9 10 3 2 3 11 0 99 30 40 50] in position 0. Should return [1 9 10 70 2 3 11 0 99 30 40 50]"
     (is (= (day2/run-opcode-instruction [1 9 10 3 2 3 11 0 99 30 40 50] 0) [1 9 10 70 2 3 11 0 99 30 40 50]))))
+
+(deftest find-noun-and-verb-test
+  (testing "Find output when first opcode is 19690720 after run. Should return output: 6533"
+    (is (:output (day2/find-noun-and-verb (day2/intcode->vector! "./resources/day2Data") 19690720) 6533))))
