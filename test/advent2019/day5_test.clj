@@ -57,8 +57,8 @@
     (is (= (day5/step {:pointer 0 :memory [1 5 6 7 8 9] :output [] :input 1} 4) {:pointer 4 :memory [1 5 6 7 8 9] :output [] :input 1}))))
 
 (deftest create-computer-test
-  (testing "Memory: [1 2 3]. Should return a computer with pointer 0, memory [1 2 3], output: [] and input: 1"
-    (is (= (day5/create-computer [1 2 3]) {:pointer 0 :memory [1 2 3] :output [] :input 1}))))
+  (testing "Memory: [1 2 3]. Input: 4. Should return a computer with pointer 0, memory [1 2 3], output: [] and input: 4"
+    (is (= (day5/create-computer 4 [1 2 3]) {:pointer 0 :memory [1 2 3] :output [] :input 4}))))
 
 (deftest binary-operation-test
   (testing "Computer: {:pointer 0 :memory [1101 5 6 3 8 9] :output [] :input 1}. Operation: +. Should return {:pointer 4 :memory [1101 5 6 11 8 9] :output [] :input 1}"
@@ -73,3 +73,9 @@
 (deftest output-operation-test
   (testing "Computer: {:pointer 0 :memory [4 5 6 3 8 9] :output [] :input 1}. Should return {:pointer 2, :memory [4 5 6 3 8 9], :output [9], :input 1}"
     (is (= (day5/output-operation {:pointer 0 :memory [4 5 6 3 8 9] :output [] :input 1}) {:pointer 2, :memory [4 5 6 3 8 9], :output [9], :input 1}))))
+
+(deftest run-computer-test
+  (testing "Input: 1. Should return [0 0 0 0 0 0 0 0 0 7988899]"
+    (is (= (day5/run-computer 1) [0 0 0 0 0 0 0 0 0 7988899])))
+  (testing "Input: 5. Should return [13758663]"
+    (is (= (day5/run-computer 5) [13758663]))))

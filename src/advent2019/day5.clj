@@ -59,7 +59,7 @@
   (= 1.0 (mod (quot parameter-modes (Math/pow 10 (dec position))) 10)))
 
 (defn get-parameter-value
-  "Gets a parameters value (either positional or immediate)"
+  "Gets a parameters value, based on mode"
   [computer position]
   (if (immediate-mode? (:parameter-modes (parse-opcode computer)) position)
     (get-value-from-memory-with-offset computer position)
@@ -74,8 +74,8 @@
 
 (defn create-computer
   "Creates a computer with memory, a memory location pointer and an output"
-  [memory]
-  {:pointer 0 :memory (vec memory) :output [] :input 1})
+  [input memory]
+  {:pointer 0 :memory (vec memory) :output [] :input input})
 
 ;; Operations
 
@@ -104,15 +104,27 @@
       (update :output conj (get-parameter-value computer 1))
       (step 2)))
 
-(output-operation {:pointer 0 :memory [4 5 6 3 8 9] :output [] :input 1})
+(defn jump-operation
+  "If the first parameter is zero, it sets the instruction pointer to the value from the second parameter. Otherwise, it does nothing."
+  [computer pred]
+  (if (pred (get-parameter-value computer 1))
+    (assoc computer :pointer (get-parameter-value computer 2))
+    (step computer 3)))
 
-(loop [computer (->> (clojure.string/split program #",")
-                     (map read-string)
-                     (create-computer))]
-  (let [opcode (parse-opcode computer)]
-    (case (:operation opcode)
-      1 (recur (binary-operation computer +))
-      2 (recur (binary-operation computer *))
-      3 (recur (input-operation computer (:input computer)))
-      4 (recur (output-operation computer))
-      99 (:output computer))))
+(defn run-computer
+  "Run the computer"
+  [input]
+  (loop [computer (->> (clojure.string/split program #",")
+                       (map read-string)
+                       (create-computer input))]
+    (let [opcode (parse-opcode computer)]
+      (case (:operation opcode)
+        1 (recur (binary-operation computer +))
+        2 (recur (binary-operation computer *))
+        3 (recur (input-operation computer (:input computer)))
+        4 (recur (output-operation computer))
+        5 (recur (jump-operation computer (complement zero?)))
+        6 (recur (jump-operation computer zero?))
+        7 (recur (binary-operation computer #(if (< %1 %2) 1 0)))
+        8 (recur (binary-operation computer #(if (= %1 %2) 1 0)))
+        99 (:output computer)))))
