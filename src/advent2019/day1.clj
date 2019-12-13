@@ -1,6 +1,6 @@
 (ns advent2019.day1
-  (:gen-class))
-(require '[clojure.java.io :as io])
+  (:gen-class)
+  (:require [clojure.java.io :as io]))
 
 ;;
 ;; Day 1: The Tyranny of the Rocket Equation

@@ -1,8 +1,8 @@
 (ns advent2019.day3
-  (:gen-class))
-(require '[clojure.data.csv :as csv]
-         '[clojure.java.io :as io]
-         '[clojure.set])
+  (:gen-class)
+  (:require [clojure.data.csv :as csv]
+            [clojure.java.io :as io]
+            [clojure.set]))
 
 ;;
 ;; Day 3: Crossed Wires

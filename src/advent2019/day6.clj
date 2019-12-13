@@ -1,6 +1,6 @@
 (ns advent2019.day6
-  (:gen-class))
-(require '[clojure.set])
+  (:gen-class)
+  (:require [clojure.set]))
 
 ;;
 ;; Day 6: Universal Orbit Map
