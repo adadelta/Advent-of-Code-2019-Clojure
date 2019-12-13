@@ -15,7 +15,7 @@
        slurp
        clojure.string/split-lines
        (map #(reverse (clojure.string/split % #"\)")))
-       (reduce (fn [orbits [outer inner]] (assoc orbits outer inner)) (hash-map))))
+       (reduce (fn [orbits [outer inner]] (assoc orbits outer inner)) {})))
 
 (defn count-orbits
   "Counts the total orbits and indirect orbits for a planet"
@@ -25,11 +25,7 @@
 (defn count-total-orbits
   "Counts the total number of orbits in the system"
   [orbits]
-  (let [total (atom 0)]
-    (doseq [[k] orbits]
-      (swap! total #(+ (count-orbits k orbits) %)))
-    @total))
-
+  (reduce (fn [total [planet]](+ total (count-orbits planet orbits))) 0 orbits))
 
 ;; Puzzle 2.
 
